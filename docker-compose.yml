@@ -16,13 +16,12 @@ docker9:
   - docker9_data
   environment:
   - DOCKER_HOST=tcp://dind9:2375
-  - JAVA_OPTS=-Xms512m -Xmx2048m
+  - JAVA_OPTS=-Xmx2048m
   - JENKINS_NAME=docker-1.9
   - JENKINS_RETRY=10
-  - JENKINS_LABELS=docker docker-1.9
-  - JENKINS_MODE=exclusive
   env_file:
   - .secret
+  command: ["-labels", "docker docker-1.9", "-mode", "exclusive"]
 
 docker9_data:
   image: busybox
@@ -48,13 +47,12 @@ docker10:
   - docker10_data
   environment:
   - DOCKER_HOST=tcp://dind10:2375
-  - JAVA_OPTS=-Xms512m -Xmx2048m
+  - JAVA_OPTS=-Xmx2048m
   - JENKINS_NAME=docker-1.10
   - JENKINS_RETRY=10
-  - JENKINS_LABELS=docker docker-1.10
-  - JENKINS_MODE=exclusive
   env_file:
   - .secret
+  command: ["-labels", "docker docker-1.10", "-mode", "exclusive"]
 
 docker10_data:
   image: busybox
