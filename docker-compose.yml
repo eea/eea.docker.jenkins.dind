@@ -1,0 +1,63 @@
+dind9:
+  image: docker:1.9-dind
+  privileged: true
+  restart: always
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+
+docker9:
+  image: eeacms/jenkins-slave-dind:1.9
+  restart: always
+  links:
+  - dind9
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+  volumes_from:
+  - docker9_data
+  environment:
+  - DOCKER_HOST=tcp://dind9:2375
+  - JAVA_OPTS=-Xms512m -Xmx2048m
+  - JENKINS_NAME=docker-1.9
+  - JENKINS_RETRY=10
+  - JENKINS_LABELS=docker docker-1.9
+  - JENKINS_MODE=exclusive
+  env_file:
+  - .secret
+
+docker9_data:
+  image: busybox
+  volumes:
+  - /var/jenkins_home/worker
+  command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
+
+dind10:
+  image: docker:1.10-dind
+  privileged: true
+  restart: always
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+
+docker10:
+  image: eeacms/jenkins-slave-dind:1.10
+  restart: always
+  links:
+  - dind10
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+  volumes_from:
+  - docker10_data
+  environment:
+  - DOCKER_HOST=tcp://dind10:2375
+  - JAVA_OPTS=-Xms512m -Xmx2048m
+  - JENKINS_NAME=docker-1.10
+  - JENKINS_RETRY=10
+  - JENKINS_LABELS=docker docker-1.10
+  - JENKINS_MODE=exclusive
+  env_file:
+  - .secret
+
+docker10_data:
+  image: busybox
+  volumes:
+  - /var/jenkins_home/worker
+  command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
