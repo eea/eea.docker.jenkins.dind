@@ -1,3 +1,34 @@
+dind10:
+  image: docker:1.10-dind
+  privileged: true
+  restart: always
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+
+docker10:
+  image: eeacms/jenkins-slave-dind:1.10
+  restart: always
+  links:
+  - dind10
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+  volumes_from:
+  - docker10_data
+  environment:
+  - DOCKER_HOST=tcp://dind10:2375
+  - JAVA_OPTS=-Xmx2048m
+  - JENKINS_NAME=docker-1.10
+  - JENKINS_RETRY=10
+  env_file:
+  - .secret
+  command: ["-labels", "docker docker-1.10", "-mode", "exclusive"]
+
+docker10_data:
+  image: busybox
+  volumes:
+  - /var/jenkins_home/worker
+  command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
+
 dind9:
   image: docker:1.9-dind
   privileged: true
@@ -29,32 +60,63 @@ docker9_data:
   - /var/jenkins_home/worker
   command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
 
-dind10:
-  image: docker:1.10-dind
+dind8:
+  image: docker:1.8-dind
   privileged: true
   restart: always
   volumes:
   - /etc/localtime:/etc/localtime:ro
 
-docker10:
-  image: eeacms/jenkins-slave-dind:1.10
+docker8:
+  image: eeacms/jenkins-slave-dind:1.8
   restart: always
   links:
-  - dind10
+  - dind8
   volumes:
   - /etc/localtime:/etc/localtime:ro
   volumes_from:
-  - docker10_data
+  - docker8_data
   environment:
-  - DOCKER_HOST=tcp://dind10:2375
+  - DOCKER_HOST=tcp://dind8:2375
   - JAVA_OPTS=-Xmx2048m
-  - JENKINS_NAME=docker-1.10
+  - JENKINS_NAME=docker-1.8
   - JENKINS_RETRY=10
   env_file:
   - .secret
-  command: ["-labels", "docker docker-1.10", "-mode", "exclusive"]
+  command: ["-labels", "docker docker-1.8", "-mode", "exclusive"]
 
-docker10_data:
+docker8_data:
+  image: busybox
+  volumes:
+  - /var/jenkins_home/worker
+  command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
+
+dind7:
+  image: docker:1.7-dind
+  privileged: true
+  restart: always
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+
+docker7:
+  image: eeacms/jenkins-slave-dind:1.7
+  restart: always
+  links:
+  - dind7
+  volumes:
+  - /etc/localtime:/etc/localtime:ro
+  volumes_from:
+  - docker7_data
+  environment:
+  - DOCKER_HOST=tcp://dind7:2375
+  - JAVA_OPTS=-Xmx2048m
+  - JENKINS_NAME=docker-1.7
+  - JENKINS_RETRY=10
+  env_file:
+  - .secret
+  command: ["-labels", "docker docker-1.7", "-mode", "exclusive"]
+
+docker7_data:
   image: busybox
   volumes:
   - /var/jenkins_home/worker
