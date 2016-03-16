@@ -17,11 +17,9 @@ docker10:
   environment:
   - DOCKER_HOST=tcp://dind10:2375
   - JAVA_OPTS=-Xmx2048m
-  - JENKINS_NAME=docker-1.10
-  - JENKINS_RETRY=10
   env_file:
   - .secret
-  command: ["-labels", "docker docker-1.10", "-mode", "exclusive"]
+  command: ["-labels", "docker docker-1.10", "-mode", "exclusive", "-name", "docker-1.10", "-retry", "3"]
 
 docker10_data:
   image: busybox
@@ -48,11 +46,9 @@ docker9:
   environment:
   - DOCKER_HOST=tcp://dind9:2375
   - JAVA_OPTS=-Xmx2048m
-  - JENKINS_NAME=docker-1.9
-  - JENKINS_RETRY=10
   env_file:
   - .secret
-  command: ["-labels", "docker docker-1.9", "-mode", "exclusive"]
+  command: ["-labels", "docker docker-1.9", "-mode", "exclusive", "-name", "docker-1.9", "-retry", "3"]
 
 docker9_data:
   image: busybox
@@ -79,11 +75,9 @@ docker8:
   environment:
   - DOCKER_HOST=tcp://dind8:2375
   - JAVA_OPTS=-Xmx2048m
-  - JENKINS_NAME=docker-1.8
-  - JENKINS_RETRY=10
   env_file:
   - .secret
-  command: ["-labels", "docker docker-1.8", "-mode", "exclusive"]
+  command: ["-labels", "docker docker-1.8", "-mode", "exclusive", "-name", "docker-1.8", "-retry", "3"]
 
 docker8_data:
   image: busybox
@@ -110,11 +104,9 @@ docker7:
   environment:
   - DOCKER_HOST=tcp://dind7:2375
   - JAVA_OPTS=-Xmx2048m
-  - JENKINS_NAME=docker-1.7
-  - JENKINS_RETRY=10
   env_file:
   - .secret
-  command: ["-labels", "docker docker-1.7", "-mode", "exclusive"]
+  command: ["-labels", "docker docker-1.7", "-mode", "exclusive", "-name", "docker-1.7", "-retry", "3"]
 
 docker7_data:
   image: busybox
