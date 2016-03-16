@@ -1,3 +1,6 @@
+#
+# Docker 1.10
+#
 dind10:
   image: docker:1.10-dind
   privileged: true
@@ -26,7 +29,9 @@ docker10_data:
   volumes:
   - /var/jenkins_home/worker
   command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
-
+#
+# Docker 1.9
+#
 dind9:
   image: docker:1.9-dind
   privileged: true
@@ -55,7 +60,9 @@ docker9_data:
   volumes:
   - /var/jenkins_home/worker
   command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
-
+#
+# Docker 1.8
+#
 dind8:
   image: docker:1.8-dind
   privileged: true
@@ -84,7 +91,9 @@ docker8_data:
   volumes:
   - /var/jenkins_home/worker
   command: ["chown", "-v", "-R", "1000:1000", "/var/jenkins_home/worker"]
-
+#
+# Docker 1.7
+#
 dind7:
   image: docker:1.7-dind
   privileged: true
