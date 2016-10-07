@@ -13,6 +13,8 @@ Docker orchestration for EEA Jenkins workers able to run Docker related jobs
 
 2. Install [Docker Compose](https://docs.docker.com/compose/).
 
+3. Install [Rancher Compose](http://www.rancher.com)
+
 
 ## Usage
 
@@ -24,19 +26,23 @@ Add master, user and password to connect jenkins slaves to jenkins master
     $ cp .secret.example .secret
     $ vi .secret
 
-Start
+### Deploy in production
 
-    $ sudo docker-compose up -d
-
-Check that everything started as expected and the slave successfully connected to master
-
-    $ sudo docker-compose logs
+    $ rancher-compose -e .secret up -d
 
 
-## Upgrade
+### Upgrade
 
-    $ sudo docker-compose pull
-    $ sudo docker-compose up -d
+    $ rancher-compose -e .secret pull
+    $ rancher-compose -e .secret up -d --upgrade
+
+...and confirm that the upgrade went well:
+
+    $ rancher-compose -e .secret up -d --confirm-upgrade
+
+...or roll-back:
+
+    $ rancher-compose -e .secret up -d --roll-back
 
 
 ## Copyright and license

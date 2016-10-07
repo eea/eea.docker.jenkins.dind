@@ -1,23 +1,42 @@
-#
-# Docker 1.10
-#
 dind10:
-  image: docker:1.10-dind
+  labels:
+    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
+    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.dind10=yes
+    eu.europa.eionet.ci.dind10: "yes"
+  tty: true
+  stdin_open: true
+  image: docker.io/docker:1.10-dind
   privileged: true
-  restart: always
   volumes:
   - /etc/localtime:/etc/localtime:ro
 
 docker10:
   image: eeacms/jenkins-slave-dind:1.10
-  restart: always
   links:
-  - dind10
+  - dind10:dind10
+  environment:
+    DOCKER_HOST: tcp://dind10:2375
+    JAVA_OPTS: -Xmx2048m
+    JENKINS_MASTER: ${JENKINS_MASTER}
+    JENKINS_PASS: ${JENKINS_PASS}
+    JENKINS_USER: ${JENKINS_USER}
+    DOCKERHUB_USER: ${DOCKERHUB_USER}
+    DOCKERHUB_PASS: ${DOCKERHUB_PASS}
+  labels:
+    io.rancher.sidekicks: dind10
+    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
+    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.docker10=yes
+    eu.europa.eionet.ci.docker10: yes
+  tty: true
+  stdin_open: true
+  command:
+  - -labels
+  - docker docker-1.10
+  - -mode
+  - exclusive
+  - -name
+  - docker-1.10
+  - -retry
+  - '10'
   volumes:
   - /etc/localtime:/etc/localtime:ro
-  environment:
-  - DOCKER_HOST=tcp://dind10:2375
-  - JAVA_OPTS=-Xmx2048m
-  env_file:
-  - .secret
-  command: ["-labels", "docker docker-1.10", "-mode", "exclusive", "-name", "docker-1.10", "-retry", "10"]
