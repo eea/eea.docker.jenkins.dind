@@ -23,7 +23,6 @@ docker10:
     DOCKERHUB_USER: ${DOCKERHUB_USER}
     DOCKERHUB_PASS: ${DOCKERHUB_PASS}
   labels:
-    io.rancher.sidekicks: dind10
     io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
     io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.docker10=yes
     eu.europa.eionet.ci.docker10: yes
