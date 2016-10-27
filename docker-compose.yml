@@ -1,41 +1,27 @@
-dind10:
-  labels:
-    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
-    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.dind10=yes
-    eu.europa.eionet.ci.dind10: "yes"
-  tty: true
-  stdin_open: true
-  image: docker.io/docker:1.10-dind
-  privileged: true
-  volumes:
-  - /etc/localtime:/etc/localtime:ro
+dind1:
+  extends:
+    file: base-compose.yml
+    service: dind
 
-docker10:
-  image: eeacms/jenkins-slave-dind:1.10
+docker1:
+  extends:
+    file: base-compose.yml
+    service: docker
   links:
-  - dind10:dind10
+  - dind1:dind1
   environment:
-    DOCKER_HOST: tcp://dind10:2375
-    JAVA_OPTS: -Xmx2048m
-    JENKINS_MASTER: ${JENKINS_MASTER}
-    JENKINS_PASS: ${JENKINS_PASS}
-    JENKINS_USER: ${JENKINS_USER}
-    DOCKERHUB_USER: ${DOCKERHUB_USER}
-    DOCKERHUB_PASS: ${DOCKERHUB_PASS}
-  labels:
-    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
-    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.docker10=yes
-    eu.europa.eionet.ci.docker10: yes
-  tty: true
-  stdin_open: true
-  command:
-  - -labels
-  - docker docker-1.10
-  - -mode
-  - exclusive
-  - -name
-  - docker-1.10
-  - -retry
-  - '10'
-  volumes:
-  - /etc/localtime:/etc/localtime:ro
+    DOCKER_HOST: tcp://dind1:2375
+
+dind2:
+  extends:
+    file: base-compose.yml
+    service: dind
+
+docker2:
+  extends:
+    file: base-compose.yml
+    service: docker
+  links:
+  - dind2:dind2
+  environment:
+    DOCKER_HOST: tcp://dind2:2375

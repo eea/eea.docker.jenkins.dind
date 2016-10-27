@@ -30,6 +30,10 @@ Add master, user and password to connect jenkins slaves to jenkins master
 
     $ rancher-compose -e .secret up -d
 
+### Update SSH keys on github
+
+If you have Jenkins jobs that commit on github, get the new generated SSH keys from
+Jenkins Slaves Rancher console and add them to github (Jenkins user)
 
 ### Upgrade
 

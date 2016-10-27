@@ -1,4 +1,8 @@
-dind10:
+dind1:
   scale: 1
-docker10:
-  scale: 4
+docker1:
+  scale: 1
+dind2:
+  scale: 1
+docker2:
+  scale: 1

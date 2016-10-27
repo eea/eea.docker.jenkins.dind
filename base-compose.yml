@@ -1,0 +1,33 @@
+dind:
+  labels:
+    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
+    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.dind=yes
+    eu.europa.eionet.ci.dind: "yes"
+  image: docker.io/docker:1.10-dind
+  privileged: true
+  environment:
+    TZ: "Europe/Copenhagen"
+
+docker:
+  image: eeacms/jenkins-slave-dind:1.10
+  environment:
+    TZ: "Europe/Copenhagen"
+    JAVA_OPTS: -Xmx2048m
+    JENKINS_MASTER: ${JENKINS_MASTER}
+    JENKINS_PASS: ${JENKINS_PASS}
+    JENKINS_USER: ${JENKINS_USER}
+    DOCKERHUB_USER: ${DOCKERHUB_USER}
+    DOCKERHUB_PASS: ${DOCKERHUB_PASS}
+  labels:
+    io.rancher.scheduler.affinity:host_label: jenkins-slaves=yes
+    io.rancher.scheduler.affinity:container_label_soft_ne: eu.europa.eionet.ci.docker=yes
+    eu.europa.eionet.ci.docker: yes
+  command:
+  - -labels
+  - docker docker-1.10
+  - -mode
+  - exclusive
+  - -name
+  - docker
+  - -retry
+  - '10'
